@@ -4,117 +4,311 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تطبيق الشاهين للشحن</title>
+
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
+        :root {
+            --orange: #ff7200;
+            --orange-dark: #e65d00;
+            --blue: #1f36a6;
+            --blue-dark: #13236f;
+            --white: #ffffff;
+            --light: #f6f8ff;
+            --text: #1f2937;
+            --muted: #6b7280;
+        }
+
         body {
             font-family: 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
             min-height: 100vh;
+            background:
+                radial-gradient(circle at top left, rgba(255, 114, 0, 0.25), transparent 35%),
+                linear-gradient(135deg, var(--blue-dark), var(--blue));
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 40px 20px;
+            padding: 30px 18px;
+            overflow-x: hidden;
         }
+
+        .page {
+            width: 100%;
+            max-width: 430px;
+            text-align: center;
+        }
+
+        .brand-header {
+            margin-bottom: 24px;
+            color: var(--white);
+        }
+
+        .logo-circle {
+            width: 125px;
+            height: 125px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 6px solid var(--orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+
+        .logo-circle img {
+            width: 82%;
+            height: 82%;
+            object-fit: contain;
+        }
+
         h1 {
-            color: #fff;
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            text-align: center;
+            font-size: 2.1rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--white);
         }
+
         .subtitle {
-            color: rgba(255,255,255,0.6);
-            font-size: 1.1rem;
-            margin-bottom: 50px;
-            text-align: center;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.78);
+            line-height: 1.8;
         }
+
         .qr-card {
-            background: #fff;
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            width: 340px;
+            position: relative;
+            background: var(--white);
+            border-radius: 28px;
+            padding: 30px 24px 28px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.28);
+            overflow: hidden;
         }
-        #qrcode {
-            width: 250px;
-            height: 250px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 25px;
+
+        .qr-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 9px;
+            background: linear-gradient(90deg, var(--blue), var(--orange));
         }
-        #qrcode img, #qrcode canvas {
-            width: 250px !important;
-            height: 250px !important;
-        }
-        .qr-card h2 {
-            font-size: 1.4rem;
-            color: #333;
-            margin-bottom: 10px;
-        }
-        .qr-card p {
-            color: #666;
-            font-size: 0.95rem;
-            margin-bottom: 25px;
-        }
-        .store-links {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .store-badge {
+
+        .badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 24px;
-            border-radius: 30px;
-            color: #fff;
-            font-weight: bold;
+            justify-content: center;
+            gap: 7px;
+            background: rgba(255, 114, 0, 0.1);
+            color: var(--orange-dark);
+            border: 1px solid rgba(255, 114, 0, 0.25);
+            padding: 8px 16px;
+            border-radius: 100px;
             font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        #qrcode {
+            width: 245px;
+            height: 245px;
+            margin: 0 auto 22px;
+            padding: 12px;
+            border-radius: 22px;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed rgba(31, 54, 166, 0.22);
+        }
+
+        #qrcode img,
+        #qrcode canvas {
+            width: 220px !important;
+            height: 220px !important;
+            border-radius: 8px;
+        }
+
+        .qr-card h2 {
+            font-size: 1.45rem;
+            color: var(--blue-dark);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .qr-card p {
+            color: var(--muted);
+            font-size: 0.96rem;
+            line-height: 1.8;
+            margin-bottom: 22px;
+        }
+
+        .store-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .store-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 18px;
+            border-radius: 16px;
+            color: var(--white);
+            font-weight: 800;
+            font-size: 0.98rem;
             text-decoration: none;
+            transition: 0.25s ease;
         }
+
+        .store-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+        }
+
         .google-play {
-            background: linear-gradient(135deg, #00d4ff, #00a8e8);
+            background: linear-gradient(135deg, var(--orange), var(--orange-dark));
         }
+
         .app-store {
-            background: linear-gradient(135deg, #a8a8a8, #6e6e6e);
+            background: linear-gradient(135deg, var(--blue), var(--blue-dark));
         }
+
+        .note {
+            margin-top: 18px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: #fff7ed;
+            color: #9a3412;
+            font-size: 0.86rem;
+            line-height: 1.7;
+        }
+
         .footer {
-            margin-top: 50px;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.85rem;
+            margin-top: 22px;
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 0.84rem;
+            line-height: 1.7;
+        }
+
+        .decor {
+            position: fixed;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(255, 114, 0, 0.12);
+            z-index: -1;
+        }
+
+        .decor.one {
+            top: -60px;
+            right: -60px;
+        }
+
+        .decor.two {
+            bottom: -70px;
+            left: -70px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        @media (max-width: 420px) {
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .logo-circle {
+                width: 108px;
+                height: 108px;
+            }
+
+            .qr-card {
+                padding: 28px 18px;
+            }
+
+            #qrcode {
+                width: 225px;
+                height: 225px;
+            }
+
+            #qrcode img,
+            #qrcode canvas {
+                width: 200px !important;
+                height: 200px !important;
+            }
         }
     </style>
 </head>
+
 <body>
-    <h1>تطبيق الشاهين للشحن</h1>
-    <p class="subtitle">امسح الرمز للتحميل المباشر</p>
-    <div class="qr-card">
-        <div id="qrcode"></div>
-        <h2>حمل التطبيق الآن</h2>
-        <p>امسح رمز QR بالكاميرا وسيتم تحويلك تلقائياً للمتجر المناسب لجهازك</p>
-        <div class="store-links">
-            <a href="https://play.google.com/store/apps/details?id=com.ahmed.shaheen.v3" target="_blank" class="store-badge google-play">
-                <span>▶</span> Google Play
-            </a>
-            <a href="https://apps.apple.com/ly/app/%D8%A7%D9%84%D8%B4%D8%A7%D9%87%D9%8A%D9%86-%D9%84%D9%84%D8%B4%D8%AD%D9%86/id6761749992?l=ar" target="_blank" class="store-badge app-store">
-                <span></span> App Store
-            </a>
-        </div>
-    </div>
-    <p class="footer">رمز QR واحد يحول المستخدم تلقائياً حسب نوع الجهاز</p>
+    <div class="decor one"></div>
+    <div class="decor two"></div>
+
+    <main class="page">
+        <header class="brand-header">
+            <div class="logo-circle">
+                <img src="logo.png" alt="شعار شركة الشاهين للشحن">
+            </div>
+
+            <h1>تطبيق الشاهين للشحن</h1>
+            <p class="subtitle">
+                شريكك الآمن للشحن الجوي والبحري والبري
+            </p>
+        </header>
+
+        <section class="qr-card">
+            <div class="badge">
+                <span>📦</span>
+                <span>تحميل التطبيق الرسمي</span>
+            </div>
+
+            <div id="qrcode"></div>
+
+            <h2>حمّل التطبيق الآن</h2>
+
+            <p>
+                امسح رمز QR بالكاميرا وسيتم تحويلك تلقائياً إلى المتجر المناسب لجهازك.
+            </p>
+
+            <div class="store-links">
+                <a href="https://play.google.com/store/apps/details?id=com.ahmed.shaheen.v3"
+                   target="_blank"
+                   class="store-badge google-play">
+                    <span>▶</span>
+                    <span>تحميل من Google Play</span>
+                </a>
+
+                <a href="https://apps.apple.com/ly/app/%D8%A7%D9%84%D8%B4%D8%A7%D9%87%D9%8A%D9%86-%D9%84%D9%84%D8%B4%D8%AD%D9%86/id6761749992?l=ar"
+                   target="_blank"
+                   class="store-badge app-store">
+                    <span></span>
+                    <span>تحميل من App Store</span>
+                </a>
+            </div>
+
+            <div class="note">
+                رمز QR واحد يعمل مع Android و iPhone تلقائياً.
+            </div>
+        </section>
+
+        <p class="footer">
+            Al Shaheen Shipping Company © جميع الحقوق محفوظة
+        </p>
+    </main>
+
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
     <script>
         var GOOGLE_PLAY_URL = 'https://play.google.com/store/apps/details?id=com.ahmed.shaheen.v3';
         var APP_STORE_URL = 'https://apps.apple.com/ly/app/%D8%A7%D9%84%D8%B4%D8%A7%D9%87%D9%8A%D9%86-%D9%84%D9%84%D8%B4%D8%AD%D9%86/id6761749992?l=ar';
 
-        (function() {
+        (function () {
             var ua = navigator.userAgent || navigator.vendor || window.opera;
             var isAndroid = /android/i.test(ua);
             var isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
@@ -123,6 +317,7 @@
                 window.location.href = GOOGLE_PLAY_URL;
                 return;
             }
+
             if (isIOS) {
                 window.location.href = APP_STORE_URL;
                 return;
@@ -131,9 +326,9 @@
 
         new QRCode(document.getElementById('qrcode'), {
             text: window.location.href,
-            width: 250,
-            height: 250,
-            colorDark: '#000000',
+            width: 220,
+            height: 220,
+            colorDark: '#1f36a6',
             colorLight: '#ffffff',
             correctLevel: QRCode.CorrectLevel.H
         });
