@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق الشاهين للشحن</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        h1 {
+            color: #fff;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .subtitle {
+            color: rgba(255,255,255,0.6);
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        .qr-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 340px;
+        }
+        #qrcode {
+            width: 250px;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+        }
+        #qrcode img, #qrcode canvas {
+            width: 250px !important;
+            height: 250px !important;
+        }
+        .qr-card h2 {
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .qr-card p {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+        }
+        .store-links {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .store-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            border-radius: 30px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+        .google-play {
+            background: linear-gradient(135deg, #00d4ff, #00a8e8);
+        }
+        .app-store {
+            background: linear-gradient(135deg, #a8a8a8, #6e6e6e);
+        }
+        .footer {
+            margin-top: 50px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>تطبيق الشاهين للشحن</h1>
+    <p class="subtitle">امسح الرمز للتحميل المباشر</p>
+    <div class="qr-card">
+        <div id="qrcode"></div>
+        <h2>حمل التطبيق الآن</h2>
+        <p>امسح رمز QR بالكاميرا وسيتم تحويلك تلقائياً للمتجر المناسب لجهازك</p>
+        <div class="store-links">
+            <a href="https://play.google.com/store/apps/details?id=com.ahmed.shaheen.v3" target="_blank" class="store-badge google-play">
+                <span>▶</span> Google Play
+            </a>
+            <a href="https://apps.apple.com/ly/app/%D8%A7%D9%84%D8%B4%D8%A7%D9%87%D9%8A%D9%86-%D9%84%D9%84%D8%B4%D8%AD%D9%86/id6761749992?l=ar" target="_blank" class="store-badge app-store">
+                <span></span> App Store
+            </a>
+        </div>
+    </div>
+    <p class="footer">رمز QR واحد يحول المستخدم تلقائياً حسب نوع الجهاز</p>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script>
+        var GOOGLE_PLAY_URL = 'https://play.google.com/store/apps/details?id=com.ahmed.shaheen.v3';
+        var APP_STORE_URL = 'https://apps.apple.com/ly/app/%D8%A7%D9%84%D8%B4%D8%A7%D9%87%D9%8A%D9%86-%D9%84%D9%84%D8%B4%D8%AD%D9%86/id6761749992?l=ar';
+
+        (function() {
+            var ua = navigator.userAgent || navigator.vendor || window.opera;
+            var isAndroid = /android/i.test(ua);
+            var isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+
+            if (isAndroid) {
+                window.location.href = GOOGLE_PLAY_URL;
+                return;
+            }
+            if (isIOS) {
+                window.location.href = APP_STORE_URL;
+                return;
+            }
+        })();
+
+        new QRCode(document.getElementById('qrcode'), {
+            text: window.location.href,
+            width: 250,
+            height: 250,
+            colorDark: '#000000',
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    </script>
+</body>
+</html>
